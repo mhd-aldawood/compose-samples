@@ -1,0 +1,67 @@
+package com.test.compose
+
+import android.content.Context
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
+import com.test.compose.ui.theme.MyApplicationTheme
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MyApplicationTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+//                    ColumnArrangement()
+                    buttonWithClick(application)
+//                    showToast(application)
+                    Button({
+                        val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
+                        val currentDateandTime: String = sdf.format(Date())
+                        Log.i("TAG", currentDateandTime)
+                    }) {}
+
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ColumnArrangement() {
+    Text("hello \n".repeat(50), maxLines = 2)
+    Text("Hello Compose ".repeat(50), maxLines = 2, overflow = TextOverflow.Ellipsis)
+}
+@Composable
+fun buttonWithClick(context: Context) {
+    Button(onClick = { showToast(context) } , modifier = Modifier.fillMaxWidth()) {
+        Text(text = "Button")
+    }
+}
+fun showToast(context: Context){
+    Toast.makeText(context
+        ,
+        "You clicked the button.",
+        Toast.LENGTH_LONG)
+        .show()
+}
